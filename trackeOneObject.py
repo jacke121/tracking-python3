@@ -21,22 +21,14 @@ from utils.fps2 import FPS2
     
 if __name__ == '__main__':
     
-    
-    # Initialize the argument parse which is used to parse the arguments
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-t", "--type", required=True,
-                    help="input  from [0..5] for selection of type of tracker from ['BOOSTING', 'MIL','KCF', 'TLD', 'MEDIANFLOW', 'GOTURN'] ")
-    args = vars(ap.parse_args())
-    
-    print("[info] tracker selected is ", args["type"])
-   
+
     # a list of trackers type available in OpenCV3.2
     #
     trackerTypes = ['BOOSTING', 'MIL','KCF', 'TLD', 'MEDIANFLOW', 'GOTURN']
     
-    trackerType = trackerTypes[int(args["type"])]
+    trackerType = trackerTypes[0]
     
-    trackerOpenCV = cv2.Tracker_create("MIL")
+    trackerOpenCV = cv2.TrackerMIL_create()
     
     
     # for initialization of the tracker we use dlib face detector

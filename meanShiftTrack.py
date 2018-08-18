@@ -23,10 +23,6 @@ from trackers.meanshifttracker import MeanShiftTracker
     
 if __name__ == '__main__':
     
-   
-    
-       
-    
     print("[info] starting to read a webcam ...")
     capWebCam = WebcamVideoStream(0).start()
     time.sleep(1.0)
@@ -48,9 +44,7 @@ if __name__ == '__main__':
     
     
     boolDetectFaceinfirsFrameOnly = True
-    
-    
-    
+
     # loop over the frames obtained from the webcam
     while True:
         # grab each frame from the threaded  stream,
@@ -59,8 +53,6 @@ if __name__ == '__main__':
         # channels)
         frame1 = capWebCam.read()
         frame = cv2.flip(frame1,1)
-        
-        
         #frame = imutils.resize(frame, width=450)
         #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         #frame = np.dstack([frame, frame, frame])
@@ -68,39 +60,25 @@ if __name__ == '__main__':
         # display the size of the queue on the frame
         #cv2.putText(frame, "Queue Size: {}".format(fvs.Q.qsize()),
         #            (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
-        
-        
         if boolDetectFaceinfirsFrameOnly:
             
             faceRect = frontFaceDetector(frame, 0)
             
             if(len(faceRect) == 0):
                 continue
-            
-            
             # start the frame per second  (FPS) counter
             fps = FPS2().start()
-            
             bbox = faceRect[0]
-            
-                        
             # convert dlib rect to opencv rect
             
             curWindow = (int(bbox.left()), int(bbox.top()), int(bbox.right() - bbox.left()),
                          int(bbox.bottom() - bbox.top()) )
-            
             # intialize the meanShift Tracker
             meanShifTracker = MeanShiftTracker(curWindow, frame)
-            
             boolDetectFaceinfirsFrameOnly = False
-            
-            
-             
             continue 
         
-        
-            
-        
+
         meanShifTracker.computeNewWindow(frame)
         
         x,y, w, h = meanShifTracker.getCurWindow()
@@ -126,9 +104,6 @@ if __name__ == '__main__':
         if k == 27:
             break
         
-        
-        
-        
     # stop the timer and display FPS information
     fps.stop()
     print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
@@ -137,5 +112,3 @@ if __name__ == '__main__':
     # do a bit of cleanup
     cv2.destroyAllWindows()
     capWebCam.stop()
-    
-    
